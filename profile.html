@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="card">
+            <h3>Your Performance</h3>
+            <canvas id="performancePieChart" width="100px" height="50px"></canvas>
+            </div>
+            
+            <div class="card">
+                <h2>Your Profile</h2>
+                <button id="logout">LOGOUT</button>
+                <div id="profile">
+                    <p><strong>ID:</strong> <span id="userId"></span></p>
+                    <p><strong>Username:</strong> <span id="userLogin"></span></p>
+                    <p><strong>Full Name:</strong> <span id="fullname"></span></p>
+                    <p><strong>Total XP from checkpoint:</strong> <span id="userXP"></span></p>
+                    <p><strong>Total XP from piscine-go:</strong> <span id="p-go"></span></p>
+                    <p><strong>Total XP from piscine-js:</strong> <span id="p-js"></span></p>
+                    <p><strong>Total XP from Projects:</strong> <span id="prj-xp"></span></p>
+                    <p><strong>Total XP from Bonuses:</strong> <span id="bonus"></span></p>
+                    <p><strong>Total XP in Intra (Projects & checkpoints & bonuses):</strong> <span id="intra-xp"></span></p>
+                    <p><strong>Completed audits:</strong> <span id="auditscomplete"></span></p>
+                    <p><strong>Audits Ratio:</strong> <span id="auditsRatio"></span></p>
+                    <p><strong>Your Current Level:</strong> <span id="currLevel"></span></p>
+                    <p><strong>Highest Completed Level in Checkpoints:</strong> <span id="highestLev"></span></p>
+                    <p><strong>Total Completed Projects:</strong> <span id="totalP"></span></p>
+                    <div id="techSkills">
+                        <h3>Technologies</h3>
+                        <h5>Technologies gather the different programming languages, frameworks and platforms acquired from projects & piscines.</h5>
+                    </div>
+                </div>
+            </div>
+
+        <div class="card">
+            <h3>Your Performance</h3>
+            <div id="xpBarChart">
+            </div>
+        </div>
+        <div class="card">
+            <h3>Your Performance</h3>
+            <div id="projectchart">
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js"></script>
+    <script src="profile.js"></script>
+    <script src="chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

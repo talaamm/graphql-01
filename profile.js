@@ -30,6 +30,8 @@ const techSkills = {
 }
 
 document.getElementById("logout").addEventListener('click', () => {
+    localStorage.removeItem('jwtToken')
+    console.log("jwt: " , localStorage.getItem('jwtToken'))
     window.location.href = ("index.html")
 })
 
