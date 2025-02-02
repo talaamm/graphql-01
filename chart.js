@@ -1,34 +1,4 @@
-const data = {
-    labels: ['Checkpoint', 'Piscine-Go', 'Piscine-JS', 'Projects', 'Bonuses'],
-    datasets: [{
-        label: 'XP Earned',
-        data: [
-            parseInt(document.getElementById('userXP').textContent || '0', 10),
-            parseInt(document.getElementById('p-go').textContent || '0', 10),
-            parseInt(document.getElementById('p-js').textContent || '0', 10),
-            parseInt(document.getElementById('prj-xp').textContent || '0', 10),
-            parseInt(document.getElementById('bonus').textContent || '0', 10)
-        ],
-        backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-            'rgba(75, 192, 192, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-    }]
-};
-
 function XPchart() {
-    // Sample data for the chart
     const labels = ['Checkpoint', 'Piscine-Go', 'Piscine-JS', 'Projects', 'Bonuses'];
     const data = [
         parseInt(document.getElementById('userXP')?.textContent || '0', 10),
@@ -36,6 +6,8 @@ function XPchart() {
         parseInt(document.getElementById('p-js')?.textContent || '0', 10),
         parseInt(document.getElementById('prj-xp')?.textContent || '0', 10),
         parseInt(document.getElementById('bonus')?.textContent || '0', 10),
+        // parseInt() same as Atoi (10 at the ends tells to read in base 10)
+        //  ? --> to prevent errors if the element is missing (takes zero)
     ];
     const colors = [
         '#4CAF50', // Green
@@ -44,46 +16,60 @@ function XPchart() {
         '#9966FF', // Purple
         '#FF9F40', // Orange
     ];
+    const colorsOver = [
+        '#2E7D32', // Dark Green
+        '#1565C0', // Dark Blue
+        '#FFA000', // Dark Yellow (Amber)
+        '#673AB7', // Dark Purple
+        '#E65100'  // Dark Orange    
+    ]
 
-    // SVG.js setup
-    const draw = SVG().addTo("#xpBarChart").size(1000, 300);
+    // creates svg drawing area inside #xpBarChart with size 1000px * 300px
+    const draw = SVG().addTo("#xpBarChart").size(500, 300);
 
-    // Chart dimensions
     const chartWidth = 500;
     const chartHeight = 250;
     const barWidth = 60;
     const spacing = 20;
 
-    // Calculate the maximum value to scale bars
-    const maxValue = Math.max(...data);
+    const maxValue = Math.max(...data);  // find maximum value to scale bars
 
-    // Draw Y-axis and X-axis
-    draw.line(50, 10, 50, chartHeight).stroke({
+
+    draw.line(50, 10, 50, chartHeight).stroke({ //y axis
         width: 2,
         color: '#000'
-    }); // Y-axis
-    draw.line(50, chartHeight, chartWidth - 20, chartHeight).stroke({
+    });
+    /*
+    draw.line(x1, y1, x2, y2):
+    x1 → The starting X-coordinate (horizontal position).
+    y1 → The starting Y-coordinate (vertical position).
+    x2 → The ending X-coordinate.
+    y2 → The ending Y-coordinate.
+     */
+    draw.line(50, chartHeight, chartWidth - 20, chartHeight).stroke({ // x axis
         width: 2,
         color: '#000'
-    }); // X-axis
+    }); 
 
-    // Add bars and labels
     data.forEach((value, index) => {
         const barHeight = (value / maxValue) * (chartHeight - 50);
 
-        // Draw bar
         const bar = draw
             .rect(barWidth, barHeight)
             .attr({
                 fill: colors[index],
-                x: 60 + index * (barWidth + spacing),
-                y: chartHeight - barHeight,
+                x: 60 + index * (barWidth + spacing), // start point (draws left to right)
+                y: chartHeight - barHeight, 
+                /*vertical pos (top to bottom)
+                In SVG coordinates, (0,0) is at the top-left.
+                Higher y values move objects down.
+                Since bars start from the bottom, we subtract 
+                barHeight from chartHeight so they "grow" upwards.*/
             });
 
-        // Add interactivity (hover effect)
-        bar.mouseover(function() {
+        bar.mouseover(function() { // (hover effect)
             this.fill({
-                color: 'blue'
+                color: colorsOver[index]
             });
         });
         bar.mouseout(function() {
@@ -92,23 +78,23 @@ function XPchart() {
             });
         });
 
-        // Add label
+        // add labels
         draw
             .text(labels[index])
             .font({
                 size: 12,
                 anchor: 'middle'
             })
-            .move(60 + index * (barWidth + spacing) + barWidth / 2, chartHeight + 5);
+            .move(35 + index * (barWidth + spacing) + barWidth / 2, chartHeight + 5);
 
-        // Add value label above the bar
+        // value label above the bar
         draw
             .text(value.toString())
             .font({
                 size: 12,
                 anchor: 'middle'
             })
-            .move(60 + index * (barWidth + spacing) + barWidth / 2, chartHeight - barHeight - 15);
+            .move(40 + index * (barWidth + spacing) + barWidth / 2, chartHeight - barHeight - 15);
     });
 }
 
@@ -132,9 +118,9 @@ function projectsChart(array) {
     tooltip.style.transition = "opacity 0.2s";
     tooltip.style.pointerEvents = "none"; // Avoid interfering with mouse events
     document.body.appendChild(tooltip);
-    // SVG.js setup
-    const draw = SVG().addTo("#projectchart").size(1000, 400);
-    // Chart dimensions
+  
+    const draw = SVG().addTo("#projectchart").size(900, 400);
+  
     const chartWidth = 900;
     const chartHeight = 300;
     const barWidth = 20;
