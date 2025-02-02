@@ -1,8 +1,3 @@
-let checkpoint1
-let piscinego1
-let java1
-let pro1
-let bon
 const token = localStorage.getItem('jwtToken')
 const techSkills = {
     'GO': 0,
@@ -31,7 +26,7 @@ const techSkills = {
 
 document.getElementById("logout").addEventListener('click', () => {
     localStorage.removeItem('jwtToken')
-    console.log("jwt: " , localStorage.getItem('jwtToken'))
+    console.log("jwt: " , localStorage.getItem('jwtToken')) //null
     window.location.href = ("index.html")
 })
 
@@ -84,7 +79,7 @@ async function fetchdata() {
         let pjs = CalculateXP_for(obj.data.user[0].xps, "/adam/module/piscine-js/")
         document.getElementById('p-js').textContent = pjs
 
-        let projects = CalculateXP_reg(obj.data.user[0].xps, /^\/adam\/module\/[\w-]+$/)
+        let projects = CalculateXP_reg(obj.data.user[0].xps, /^\/adam\/module\/[\w-]+$/)  //\w --> [a-z A-Z 0-9 _]
         document.getElementById('prj-xp').textContent = projects
 
         let bonus = CalculateXP_reg(obj.data.user[0].xps, /^\/adam\/module$/) //// path: /adam/module
@@ -92,14 +87,9 @@ async function fetchdata() {
 
         document.getElementById('intra-xp').textContent = projects + totalXP + bonus
 
-        checkpoint1 = totalXP
-        piscinego1 = pgo
-        java1 = pjs
-        pro1 = projects
-        bon = bonus
         XPchart()
-        await fetchadoit()
-        let skills = await fetchmore()
+        await fetchAudits()
+        let skills = await fetchSkills()
         piewiwi(skills)
         let data = await XpPerProject()
         projectsChart(data)
@@ -130,8 +120,8 @@ function CalculateXP_reg(arr, reg) {
     return sum
 }
 
-async function fetchadoit() {
-    let soso = await fetch('https://adam-jerusalem.nd.edu/api/graphql-engine/v1/graphql', {
+async function fetchAudits() {
+    let response = await fetch('https://adam-jerusalem.nd.edu/api/graphql-engine/v1/graphql', {
         method: "POST",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -153,18 +143,18 @@ async function fetchadoit() {
        }`,
         }),
     })
+    let Respjs = await response.json()
+    let completedAud = Respjs.data.user[0].audits_aggregate.nodes
     let sum = 0
-    let savelolo = await soso.json()
-    let pathlolo = savelolo.data.user[0].audits_aggregate.nodes
-    pathlolo.forEach(ebcd => {
+    completedAud.forEach(ebcd => {
         if (ebcd.auditedAt != null) {
             sum++
         }
     });
-    console.log(savelolo)
-    console.log(pathlolo)
-    console.log(sum)
-    let round = savelolo.data.user[0].auditRatio
+    // console.log(Respjs)
+    // console.log(completedAud)
+    // console.log(sum)
+    let round = Respjs.data.user[0].auditRatio
     document.getElementById('auditscomplete').textContent = sum
     document.getElementById('auditsRatio').textContent = Math.round(round * 10) / 10;
 }
@@ -179,7 +169,7 @@ function getMaxAmount(arr, type) {
     return maxnum
 }
 
-async function fetchmore() {
+async function fetchSkills() {
     let resp = await fetch('https://adam-jerusalem.nd.edu/api/graphql-engine/v1/graphql', {
         method: "POST",
         headers: {
@@ -197,12 +187,13 @@ async function fetchmore() {
     })
     let respj = await resp.json()
     let arr = respj.data.transaction
-    console.log(respj)
-    console.log(arr)
+    // console.log(respj)
+    // console.log(arr)
     let currLevel = getMaxAmount(arr, "level")
-    console.log(currLevel)
+    // console.log(currLevel)
     document.getElementById('currLevel').textContent = currLevel
-    ///////////////a apie chart for technical skils
+
+    ///////////////for the pie chart (technical skils)
     const myDiv = document.getElementById("techSkills");
     const gainedSkills = {}
     for (const key in techSkills) {
@@ -223,7 +214,6 @@ async function fetchmore() {
 }
 
 async function XpPerProject() {
-
     let resp = await fetch('https://adam-jerusalem.nd.edu/api/graphql-engine/v1/graphql', {
         method: "POST",
         headers: {
@@ -243,9 +233,13 @@ async function XpPerProject() {
         }),
     })
 
-    let bb = await resp.json()
-    console.log(bb)
-    let final = bb.data.xp_view.filter(el => !el.path.includes('piscine'))
+    /* ($regexPattern: String!) --> defines a query variable
+    ! means it's required & cannot be null
+    filter results where path matches the regex pattern*/
+
+    let proj = await resp.json()
+    // console.log(proj)
+    let final = proj.data.xp_view.filter(el => !el.path.includes('piscine'))
     console.log(final.length)
     document.getElementById('totalP').textContent = final.length + " Projects🚀"
     return final
