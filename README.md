@@ -6,7 +6,7 @@
 
 This project is a personal profile dashboard built to learn and demonstrate the use of the GraphQL query language. It allows users to log in, view their school-related data, and visualize their achievements and statistics using interactive SVG-based graphs.
 
-- **Partner:** [@noorhalabi911](https://github.com/noorhalabi911)
+- **Members:** [@noorhalabi911](https://github.com/noorhalabi911) and [@talaamm](https://github.com/talaamm)
 - **Repo:** [adam-jerusalem.nd.edu/git/noohalabi/graphql](https://adam-jerusalem.nd.edu/git/noohalabi/graphql)
 - **EXAMPLE:**
 ![image1 of wesbite](/assets/image1.png)
