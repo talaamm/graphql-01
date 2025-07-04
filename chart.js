@@ -49,7 +49,7 @@ function XPchart() {
     draw.line(50, chartHeight, chartWidth - 20, chartHeight).stroke({ // x axis
         width: 2,
         color: '#000'
-    }); 
+    });
 
     data.forEach((value, index) => {
         const barHeight = (value / maxValue) * (chartHeight - 50);
@@ -59,7 +59,7 @@ function XPchart() {
             .attr({
                 fill: colors[index],
                 x: 60 + index * (barWidth + spacing), // start point (draws left to right)
-                y: chartHeight - barHeight, 
+                y: chartHeight - barHeight,
                 /*vertical pos (top to bottom)
                 In SVG coordinates, (0,0) is at the top-left.
                 Higher y values move objects down.
@@ -67,12 +67,12 @@ function XPchart() {
                 barHeight from chartHeight so they "grow" upwards.*/
             });
 
-        bar.mouseover(function() { // (hover effect)
+        bar.mouseover(function () { // (hover effect)
             this.fill({
                 color: colorsOver[index]
             });
         });
-        bar.mouseout(function() {
+        bar.mouseout(function () {
             this.fill({
                 color: colors[index]
             });
@@ -118,9 +118,9 @@ function projectsChart(array) {
     tooltip.style.transition = "opacity 0.2s";
     tooltip.style.pointerEvents = "none"; // Avoid interfering with mouse events
     document.body.appendChild(tooltip);
-  
+
     const draw = SVG().addTo("#projectchart").size(900, 400);
-  
+
     const chartWidth = 900;
     const chartHeight = 300;
     const barWidth = 20;
@@ -156,20 +156,20 @@ function projectsChart(array) {
                 rx: 5,
                 ry: 5
             });
-        bar.mouseover(function() {
+        bar.mouseover(function () {
             this.fill({
                 color: '#483D8B'
             });
             tooltip.style.visibility = "visible";
             tooltip.innerText = `Project: ${labels[index]}\nXP: ${el.amount}`;
         });
-        bar.mouseout(function() {
+        bar.mouseout(function () {
             this.fill({
                 color: '#6A5ACD'
             });
             tooltip.style.visibility = "hidden";
         });
-        bar.mousemove(function(event) {
+        bar.mousemove(function (event) {
             tooltip.style.top = event.clientY + 10 + "px";
             tooltip.style.left = event.clientX + 10 + "px";
         });
@@ -210,7 +210,7 @@ function piewiwi(skills) {
                 'rgba(201, 203, 207, 1)',
             ],
             borderWidth: 1,
-        }, ],
+        },],
     };
 
     const config = {
@@ -221,7 +221,7 @@ function piewiwi(skills) {
             plugins: {
                 tooltip: {
                     callbacks: {
-                        label: function(tooltipItem) {
+                        label: function (tooltipItem) {
                             return `${tooltipItem.label}: ${tooltipItem.raw}%`;
                         },
                     },
