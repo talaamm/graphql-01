@@ -112,14 +112,6 @@ graphql-01/
   ├── profile.js        # Profile logic and GraphQL queries
 ```
 
-## Instructions & Requirements
-
-- Use the provided GraphQL endpoint for all data.
-- Authenticate using JWT (via signin endpoint).
-- Display at least three user data points and two SVG-based graphs.
-- Ensure good UI/UX principles.
-- Host the project and provide a live demo link.
-
 ## Credits
 
 - Developed by [@noorhalabi911](https://github.com/noorhalabi911) and [@talaamm](https://github.com/talaamm).
